@@ -1,20 +1,39 @@
-﻿// 260523.cpp : このファイルには 'main' 関数が含まれています。プログラム実行の開始と終了がそこで行われます。
-//
+﻿#include <iostream>
+#include <random>
 
-#include <iostream>
+using namespace std;
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	int input;
+
+	//	0から9の範囲でランダムな整数を1つ生成
+	random_device rd;
+	uniform_int_distribution<int>dist(0, 9);
+	int num = dist(rd);
+
+	//数値入力
+	cout << "数値を1つ入力\n";
+	cin >> input;
+
+	//	もし input が dist(rd) と値が```等しい```ならば
+	if (input == num)
+	{
+		cout << "ゲームクリア";
+	}
+	//	もし input が dist(rd) よりも値が```大きい```ならば
+	else if (input > num)
+	{
+		cout << "大きい";
+	}
+	
+	//	もし input が dist(rd) よりも値が```小さい```ならば
+	else if (input < num)
+	{
+		cout << "小さい";
+	}
 }
 
-// プログラムの実行: Ctrl + F5 または [デバッグ] > [デバッグなしで開始] メニュー
-// プログラムのデバッグ: F5 または [デバッグ] > [デバッグの開始] メニュー
-
-// 作業を開始するためのヒント: 
-//    1. ソリューション エクスプローラー ウィンドウを使用してファイルを追加/管理します 
-//   2. チーム エクスプローラー ウィンドウを使用してソース管理に接続します
-//   3. 出力ウィンドウを使用して、ビルド出力とその他のメッセージを表示します
-//   4. エラー一覧ウィンドウを使用してエラーを表示します
-//   5. [プロジェクト] > [新しい項目の追加] と移動して新しいコード ファイルを作成するか、[プロジェクト] > [既存の項目の追加] と移動して既存のコード ファイルをプロジェクトに追加します
-//   6. 後ほどこのプロジェクトを再び開く場合、[ファイル] > [開く] > [プロジェクト] と移動して .sln ファイルを選択します
+//	参考サイト
+//  https://dexall.co.jp/articles/?p=1902#i-7
+//	https://aeroastro.sd.tmu.ac.jp/hydrodynamics/main/colums/CPP/std_cin.html
