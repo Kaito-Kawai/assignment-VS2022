@@ -75,7 +75,7 @@ private:
 
 public:
 	JudgeHolder(const RandomHolder* randomAddress,const InputHolder*inputAddres)
-		:randomHolder(randomAddress), inputHolder(inputAddress){ }
+		:randomHolder(randomAddress), inputHolder(inputAddres){ }
 
 	void judge()
 	{
@@ -83,6 +83,48 @@ public:
 		{
 			throw std::invalid_argument("Error: Null Address.");
 		}
+		if (!inputHolder->isComplete())
+		{
+			throw std::length_error("Error: Input is not complete.");
+		}
+
+		const std::vector<int>& randomNumbers = randomHolder->getNumbers();
+		const std::array<int, 4>& inputValues = inputHolder->getValues();
+
+		if (randomNumbers.size() != 4)
+		{
+			throw std::length_error("Error: Random numbers are not generated.");
+		}
+
+		result = JudgeResult();
+
+		int randomCount[10] = {};
+		int inputCount[10] = {};
+
+		for (int i = 0; i < 4; i++)
+		{
+			if (randomNumbers[i] == inputValues[i])
+			{
+				result.hit++;
+			}
+			else
+			{
+				randomCount[randomNumbers[i]]++;
+				inputCount[inputValues[i]]++;
+			}
+		}
+
+		for (int i = 0; i < 10; i++)
+		{
+			result.blow += std::min(randomCount[i], inputCount[i]);
+		}
+
+		result.clear = result.hit = 4;
+	}
+
+	const JudgeResult& getResult()const
+	{
+		return result;
 	}
 };
 
