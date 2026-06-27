@@ -1,20 +1,97 @@
-﻿// Code-Breaker.cpp : このファイルには 'main' 関数が含まれています。プログラム実行の開始と終了がそこで行われます。
-//
+﻿#include <iostream>
+#include <random>
+#include <array>
+#include <vector>
+#include <stdexcept>
 
-#include <iostream>
+struct JudgeResult
+{
+	int hit = 0;
+	int blow = 0;
+	bool clear = false;
+};
+class RandomHolder
+{
+private:
+	std::random_device rd;
+	std::mt19937 gen;
+	std::uniform_int_distribution<int>dist;
+	std::vector<int> numbers;
+
+public:
+	RandomHolder(int min=1,int max=9)
+		: gen(rd()), dist(min,max){}
+
+	void generateNumbers()
+	{
+		numbers.clear();
+		for (int i = 0; i < 4; i++)
+		{
+			numbers.push_back(dist(gen));
+		}
+	}
+	const std::vector<int>& getNumbers() const
+	{
+		return numbers;
+	}
+};
+
+class InputHolder
+{
+private:
+	std::array<int, 4>values;
+	int count = 0;
+
+public:
+	void addValue(int val)
+	{
+		if (val < 0 || val>9)
+		{
+			throw std::out_of_range("Error: Out of Range Input.");
+		}
+		if (count >= 4)
+		{
+			throw std::length_error("Error: Input Digit Count.");
+		}
+		values[count]= val;
+		count++;
+	}
+	const std::array<int, 4>& getValues() const
+	{
+		return values;
+	}
+	bool isComplete() const
+	{
+		return count == 4;
+	}
+};
+
+class JudgeHolder
+{
+private:
+	const RandomHolder* randomHolder;
+	const InputHolder* inputHolder;
+	JudgeResult result;
+
+public:
+	JudgeHolder(const RandomHolder* randomAddress,const InputHolder*inputAddres)
+		:randomHolder(randomAddress), inputHolder(inputAddress){ }
+
+	void judge()
+	{
+		if (randomHolder == nullptr || inputHolder == nullptr)
+		{
+			throw std::invalid_argument("Error: Null Address.");
+		}
+	}
+};
+
+class Output
+{
+
+};
 
 int main()
 {
-    std::cout << "Hello World!\n";
+
 }
-
-// プログラムの実行: Ctrl + F5 または [デバッグ] > [デバッグなしで開始] メニュー
-// プログラムのデバッグ: F5 または [デバッグ] > [デバッグの開始] メニュー
-
-// 作業を開始するためのヒント: 
-//    1. ソリューション エクスプローラー ウィンドウを使用してファイルを追加/管理します 
-//   2. チーム エクスプローラー ウィンドウを使用してソース管理に接続します
-//   3. 出力ウィンドウを使用して、ビルド出力とその他のメッセージを表示します
-//   4. エラー一覧ウィンドウを使用してエラーを表示します
-//   5. [プロジェクト] > [新しい項目の追加] と移動して新しいコード ファイルを作成するか、[プロジェクト] > [既存の項目の追加] と移動して既存のコード ファイルをプロジェクトに追加します
-//   6. 後ほどこのプロジェクトを再び開く場合、[ファイル] > [開く] > [プロジェクト] と移動して .sln ファイルを選択します
