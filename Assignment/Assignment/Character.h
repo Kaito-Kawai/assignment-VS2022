@@ -1,5 +1,7 @@
 #pragma once
-class Character
-{
-};
 
+struct character
+{
+	char job[32];
+	int attack;
+};
