@@ -1,6 +1,5 @@
 #include "NumRandom.h"
 #include <random>
-#include <ctime>
 
 int NumRandom::getNum()
 {
@@ -9,9 +8,8 @@ int NumRandom::getNum()
 
 int NumRandom::createRandomNum()
 {
-	int num;
-	srand((int)time(nullptr));
-	num = rand() % 3;
-	
-	return num;
+	static std::mt19937 engine{ std::random_device{}() };
+	static std::uniform_int_distribution<int> distribution(1, 3);
+
+	return distribution(engine);
 }
