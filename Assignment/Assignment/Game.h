@@ -7,5 +7,5 @@ public:
 private:
 	void setting();
 	void playTurn();
-	int enemyTurn(int enemy,int enemyaction);
+	void enemyTurn(int enemy,int enemyaction);
 };

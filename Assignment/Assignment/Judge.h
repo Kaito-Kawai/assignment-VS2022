@@ -9,6 +9,7 @@ public:
 		int enemy, int enemyaction
 	);
 	
-
+private:
+	void judgeJob(int attakcJob, int guardJob);
 };
 

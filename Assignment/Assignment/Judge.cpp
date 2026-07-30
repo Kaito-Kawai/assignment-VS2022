@@ -5,53 +5,33 @@
 #include <iostream>
 
 
-void Judge::judge(int select, int action, int enemy, int enemyaction)
+void Judge::judge(int select, int actionselect, int enemy, int enemyaction)
 {
-	if (select == 1)
+	if (actionselect == 1 && enemyaction == 2)
 	{
-		if (enemy == 1)
-		{
-			std::cout << "ドロー！" << std::endl;
-		}
-		else if (enemy == 2)
-		{
-
-		}
-		else
-		{
-
-		}
+		//	Player が攻撃、敵が防御
+		judgeJob(select, enemy);
 	}
-	else if (select == 2)
+	else if (actionselect == 2 && enemyaction == 1)
 	{
-		if (enemy == 1)
-		{
-
-		}
-		else if (enemy == 2)
-		{
-			std::cout << "ドロー！" << std::endl;
-		}
-		else
-		{
-
-		}
+		//	敵が攻撃、Player が防御
+		judgeJob(enemy, select);
 	}
 	else
 	{
-		if (enemy == 1)
-		{
-
-		}
-		else if (enemy == 2)
-		{
-
-		}
-		else
-		{
-			std::cout << "ドロー！" << std::endl;
-		}
+		//	ドロー
 	}
+}
 
-	return;
+
+void Judge::judgeJob(int attackJob, int guardJob)
+{
+	if (attackJob == guardJob)
+	{
+		std::cout << "ドロー！" << std::endl;
+	}
+	else if
+		(
+			(attackJob==1&&guardJob==2)
+		)
 }

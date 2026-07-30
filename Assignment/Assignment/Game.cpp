@@ -60,10 +60,10 @@ void Game::playTurn()
 
 }
 
-int Game::enemyTurn(int enemy, int enemyaction)
+void Game::enemyTurn(int enemy, int enemyaction)
 {
 	NumRandom randomNum;	//	インスタンス化
 
-	enemy = randomNum.getNum();
-	enemyaction = randomNum.getNum();
+	enemy = randomNum.getNum()+1;
+	enemyaction = randomNum.getNum()+1;
 }
