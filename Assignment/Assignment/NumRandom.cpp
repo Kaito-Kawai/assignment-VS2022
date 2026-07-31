@@ -1,15 +1,21 @@
 #include "NumRandom.h"
+
 #include <random>
 
-int NumRandom::getNum()
+int NumRandom::getJobNum()
 {
-	return createRandomNum();
+	return createRandomNum(1, 3);
 }
 
-int NumRandom::createRandomNum()
+int NumRandom::getActionNum()
+{
+	return createRandomNum(1, 2);
+}
+
+int NumRandom::createRandomNum(int min, int max)
 {
 	static std::mt19937 engine{ std::random_device{}() };
-	static std::uniform_int_distribution<int> distribution(1, 3);
+	std::uniform_int_distribution<int> distribution(min, max);
 
 	return distribution(engine);
 }

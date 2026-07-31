@@ -1,22 +1,24 @@
 #pragma once
 
+#include "Character.h"
+#include "Team.h"
+
 class Judge
 {
-
 public:
 	void judge
 	(
-		int select, int actionselect,
-		int enemy, int enemyaction,
-
-		int playerAttack, int enemyAttack,
-		int& playerTeam, int&enemyTeam
+		Character* playerCharacter, int actionSelect,
+		Character* enemyCharacter, int enemyaction,
+		Team& playerTeam, Team& enemyTeam
 	);
-	
-private:
-	void judgeJob(
-		int attakcJob, int guardJob,
-		int attackPower,
-		int& attackTeam, int& guardTeam);
-};
 
+private:
+	void judgeJob
+	(
+		Character* attackCharacter,
+		Character* guardCharacter,
+		Team& attackTeam,
+		Team& guardTeam
+	);
+};

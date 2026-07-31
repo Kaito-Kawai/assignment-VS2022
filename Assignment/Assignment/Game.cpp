@@ -1,22 +1,9 @@
 #include "Game.h"
 
-#include "Character.h"
 #include "NumRandom.h"
 #include "Judge.h"
 
 #include <iostream>
-
-//	戦力
-int playerTeam = 300;
-int enemyTeam = 300;
-
-int playerAttack = 0;
-int enemyAttack = 0;
-
-//	攻撃力
-int swordPower = 35;
-int wizardPower = 40;
-int summonerPower = 25;
 
 void Game::Run()
 {
@@ -24,43 +11,26 @@ void Game::Run()
 
 	setting();
 
-	if (playerTeam == 300 && enemyTeam == 300 && playerAttack == 0 && enemyAttack == 0)
+	if (
+		playerTeam.getPower() != 300 ||
+		enemyTeam.getPower() != 300 ||
+		playerTeam.getTotalAttack() != 100 ||
+		enemyTeam.getTotalAttack() != 100
+		)
 	{
-		if (sword.attack == 35 && wizard.attack == 40 && summoner.attack == 25)
-		{
-			//	成功
-			std::cout << "[INIT] Initialization complete.\n" << std::endl;
-		}
-		else
-		{
-			//	失敗。終了します。
-			std::cout << "[ERROR] Initialization failed.\n" << std::endl;
-			return;
-		}
-	}
-	else
-	{
-		//	失敗。終了します。
-		std::cout << "[ERROR] Initialization failed.\n" << std::endl;
+		std::cout << "[ERROR] Initialization failed." << std::endl;
 		return;
 	}
 
+	std::cout << "[INIT] Initialization complete.\n" << std::endl;
+	std::cout << "=== Battle Game ===\n" << std::endl;
 
-	//	ゲーム開始
-	std::cout << "===陣営ゲーム===\n" << std::endl;
-	std::cout << "- ルール- \n" << std::endl;
-	std::cout << "1. 味方陣営から一人選び、行動を選んでください。\n" << std::endl;
-	std::cout << "2. 敵陣営から一人、ランダムに選ばれ、行動します。\n" << std::endl;
-	std::cout << "3. これを`1ターン`とし、先に相手陣営の戦力をゼロにすると勝利します。\n\n" << std::endl;
-	std::cout << "このゲームは半角数字の1,2,3のみを使用します。選択肢以外の値を入力するとError終了します。\n\n" << std::endl;
-	std::cout << "それでは、ゲームスタートです。\n\n・\n・\n・\n\n" << std::endl;
-
-	while (playerTeam > 0 && enemyTeam > 0)
+	while (!playerTeam.isDefeated() && !enemyTeam.isDefeated())
 	{
 		playTurn();
 	}
-	
-	if (playerTeam <= 0)
+
+	if (playerTeam.isDefeated())
 	{
 		std::cout << "[RESULT] Enemy team wins." << std::endl;
 	}
@@ -68,18 +38,13 @@ void Game::Run()
 	{
 		std::cout << "[RESULT] Player team wins." << std::endl;
 	}
-
-
 }
-
 
 void Game::setting()
 {
-	sword = { "sword",swordPower };
-	wizard = { "wizard",wizardPower };
-	summoner = { "summoner",summonerPower };
+	playerTeam.setName("Player");
+	enemyTeam.setName("Enemy");
 }
-
 
 void Game::playTurn()
 {
@@ -89,115 +54,74 @@ void Game::playTurn()
 	int enemy = 0;
 	int enemyaction = 0;
 
-	std::cout << "味方陣営から一人選びましょう。\n" << std::endl;
-	std::cout << "1: 剣士 / 2 : 魔法使い / 3 : 召喚士\n" << std::endl;
+	std::cout << "Select your character." << std::endl;
+	std::cout << "1: Swordsman / 2: Wizard / 3: Summoner" << std::endl;
 
 	std::cin >> select;
 
-	if (select == 1)
+	if (select < 1 || select > 3)
 	{
-		std::cout << "剣士を選択しました。\n"<<std::endl;
-	}
-	else if (select == 2)
-	{
-		std::cout << "魔法使いを選択しました。\n" << std::endl;
-	}
-	else if (select == 3)
-	{
-		std::cout << "召喚士を選択しました。\n" << std::endl;
-	}
-	else
-	{
+		std::cout << "[ERROR] Invalid character selection." << std::endl;
 		return;
 	}
 
-	std::cout << "次に行動を選びましょう。\n" << std::endl;
-	std::cout << "1: 攻撃 / 2: 防御" << std::endl;
+	std::cout << "Select your action." << std::endl;
+	std::cout << "1: Attack / 2: Guard" << std::endl;
 
 	std::cin >> actionSelect;
 
-	if (actionSelect == 1)
+	if (actionSelect < 1 || actionSelect > 2)
 	{
-		std::cout << "\n\n「行け！。 攻撃だ！」\n" << std::endl;
-	}
-	else if (actionSelect == 2)
-	{
-		std::cout << "\n\n行け！。 防御だ！\n" << std::endl;
-	}
-	else
-	{
+		std::cout << "[ERROR] Invalid action selection." << std::endl;
 		return;
 	}
-	
+
 	enemyTurn(enemy, enemyaction);
 
-	if (enemy == 1)
+	Character* playerCharacter = playerTeam.getCharacter(select);
+	Character* enemyCharacter = enemyTeam.getCharacter(enemy);
+
+	std::cout << "[TURN] Player job: "
+		<< playerCharacter->getJob() << std::endl;
+
+	if (actionSelect == 1)
 	{
-		std::cout << "[TURN] Enemy job: 剣士" << std::endl;
-		if (enemyaction == 1)
-		{
-			std::cout << "[TURN] Enemy action: 攻撃" << std::endl;
-		}
-		else
-		{
-			std::cout << "[TURN] Enemy action: 防御" << std::endl;
-		}
-	}
-	else if (enemy == 2)
-	{
-		std::cout << "[TURN] Enemy job: 魔法使い" << std::endl;
-		if (enemyaction == 1)
-		{
-			std::cout << "[TURN] Enemy action: 攻撃" << std::endl;
-		}
-		else
-		{
-			std::cout << "[TURN] Enemy action: 防御" << std::endl;
-		}
+		std::cout << "[TURN] Player action: Attack" << std::endl;
 	}
 	else
 	{
-		std::cout << "[TURN] Enemy job: 召喚士" << std::endl;
-		if (enemyaction == 1)
-		{
-			std::cout << "[TURN] Enemy action: 攻撃" << std::endl;
-		}
-		else
-		{
-			std::cout << "[TURN] Enemy action: 防御" << std::endl;
-		}
+		std::cout << "[TURN] Player action: Guard" << std::endl;
 	}
 
+	std::cout << "[TURN] Enemy job: "
+		<< enemyCharacter->getJob() << std::endl;
 
-	if (select == 1) {playerAttack = sword.attack;}
-	else if (select == 2) { playerAttack = wizard.attack; }
-	else if (select == 3) { playerAttack = summoner.attack; }
-
-	if (enemy == 1) { enemyAttack = sword.attack; }
-	else if (enemy == 2) {enemyAttack = wizard.attack; }
-	else if (enemy == 3) {enemyAttack = summoner.attack; }
-
+	if (enemyaction == 1)
+	{
+		std::cout << "[TURN] Enemy action: Attack" << std::endl;
+	}
+	else
+	{
+		std::cout << "[TURN] Enemy action: Guard" << std::endl;
+	}
 
 	Judge gameJudge;
-
-
 	gameJudge.judge(
-		select, actionSelect,
-		enemy, enemyaction,
-		
-		playerAttack, enemyAttack,
+		playerCharacter, actionSelect,
+		enemyCharacter, enemyaction,
 		playerTeam, enemyTeam
 	);
 
-	std::cout << "[STATUS] Player team power: " << playerTeam << std::endl;
-	std::cout << "[STATUS] Enemy team power: " << enemyTeam << std::endl;
-
+	std::cout << "[STATUS] Player team power: "
+		<< playerTeam.getPower() << std::endl;
+	std::cout << "[STATUS] Enemy team power: "
+		<< enemyTeam.getPower() << std::endl;
 }
 
 void Game::enemyTurn(int& enemy, int& enemyaction)
 {
-	NumRandom randomNum;	//	インスタンス化
+	NumRandom randomNum;
 
-	enemy = randomNum.getNum();
-	enemyaction = randomNum.getNum();
+	enemy = randomNum.getJobNum();
+	enemyaction = randomNum.getActionNum();
 }

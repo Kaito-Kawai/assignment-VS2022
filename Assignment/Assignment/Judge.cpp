@@ -2,82 +2,74 @@
 
 #include <iostream>
 
-
-
-void Judge::judge(
-	int select, int actionselect,
-	int enemy, int enemyaction,
-
-	int playerAttack, int enemyAttack,
-	int& playerTeam, int&enemyTeam
-	)
+void Judge::judge
+(
+	Character* playerCharacter, int actionSelect,
+	Character* enemyCharacter, int enemyaction,
+	Team& playerTeam, Team& enemyTeam
+)
 {
-	if (actionselect == 1 && enemyaction == 2)
+	if (actionSelect == 1 && enemyaction == 2)
 	{
-		//	Player ‚ªUŒ‚A“G‚ª–hŒä
-		judgeJob(select, enemy, playerAttack, playerTeam, enemyTeam);
+		judgeJob(playerCharacter, enemyCharacter, playerTeam, enemyTeam);
 	}
-	else if (actionselect == 2 && enemyaction == 1)
+	else if (actionSelect == 2 && enemyaction == 1)
 	{
-		//	“G‚ªUŒ‚APlayer ‚ª–hŒä
-		judgeJob(enemy, select, enemyAttack, enemyTeam, playerTeam);
+		judgeJob(enemyCharacter, playerCharacter, enemyTeam, playerTeam);
 	}
-
-	else if (actionselect == 1 && enemyaction == 1)
-
-		if (playerAttack > enemyAttack)
+	else if (actionSelect == 1 && enemyaction == 1)
+	{
+		if (playerCharacter->getAttack() > enemyCharacter->getAttack())
 		{
-			std::cout << "[BATTLE] Player attack is stronger.\n" << std::endl;
-
-			enemyTeam -= playerAttack;
-			std::cout << "[BATTLE] Damage: \n" << playerAttack << std::endl;
+			std::cout << "[BATTLE] Player attack is stronger." << std::endl;
+			enemyTeam.takeDamage(playerCharacter->getAttack());
+			std::cout << "[BATTLE] Damage: "
+				<< playerCharacter->getAttack() << std::endl;
 		}
-		else if (enemyAttack>playerAttack)
+		else if (enemyCharacter->getAttack() > playerCharacter->getAttack())
 		{
-			std::cout << "[BATTLE] Enemy attack is stronger.\n" << playerAttack << std::endl;
-
-			playerTeam -= enemyAttack;
-			std::cout << "[BATTLE] Damage: \n" << enemyAttack << std::endl;
+			std::cout << "[BATTLE] Enemy attack is stronger." << std::endl;
+			playerTeam.takeDamage(enemyCharacter->getAttack());
+			std::cout << "[BATTLE] Damage: "
+				<< enemyCharacter->getAttack() << std::endl;
 		}
 		else
 		{
-			std::cout << "[BATTLE] Draw. No damage.\n" << std::endl;
+			std::cout << "[BATTLE] Draw. No damage." << std::endl;
 		}
-
+	}
 	else
 	{
-		// ƒhƒ[
-		std::cout << "[BATTLE] No attack is resolved. No damage." << std::endl;
+		std::cout << "[BATTLE] Both sides guard. No damage." << std::endl;
 	}
 }
 
-
-void Judge::judgeJob(
-						int attackJob, int guardJob,
-						int attackPower,
-						int& attackTeam, int& guardTeam)
+void Judge::judgeJob
+(
+	Character* attackCharacter,
+	Character* guardCharacter,
+	Team& attackTeam,
+	Team& guardTeam
+)
 {
-	if (attackJob == guardJob)
+	int result = attackCharacter->judgeJob(guardCharacter->getJobNum());
+
+	if (result == 0)
 	{
 		std::cout << "[BATTLE] Draw. No damage." << std::endl;
 	}
-	else if
-		(
-			//	ƒJƒEƒ“ƒ^[
-			(attackJob == 1 && guardJob == 2) ||
-			(attackJob == 2 && guardJob == 3) ||
-			(attackJob == 3 && guardJob == 1)
-		)
+	else if (result == 1)
 	{
 		std::cout << "[BATTLE] Counter!" << std::endl;
-		attackTeam -= attackPower * 2;
-		std::cout << "[BATTLE] Damage: " << attackPower * 2 << std::endl;
+		attackTeam.takeDamage(attackCharacter->getAttack() * 2);
+		std::cout << "[BATTLE] Damage: "
+			<< attackCharacter->getAttack() * 2 << std::endl;
 	}
 	else
 	{
-		//	ƒNƒŠƒeƒBƒJƒ‹
 		std::cout << "[BATTLE] Critical!" << std::endl;
-		guardTeam -= attackPower * 2;
-		std::cout << "[BATTLE] Damage: " << attackPower * 2 << std::endl;
+		guardTeam.takeDamage(attackCharacter->getAttack() * 2);
+		std::cout << "[BATTLE] Damage: "
+			<< attackCharacter->getAttack() * 2 << std::endl;
 	}
 }

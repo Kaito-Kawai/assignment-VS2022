@@ -2,9 +2,6 @@
 
 #include "Game.h"
 
-
-
-
 //	エントリー関数
 int main()
 {
@@ -15,6 +12,7 @@ int main()
 
 	return 0;
 }
+
 
 
 
@@ -36,8 +34,20 @@ int main()
 //	https://qiita.com/rapirapi/items/0b4af3fd65c169826ddd
 //	// ランダム
 //	https://qiita.com/tsukino_/items/01acf1c16f4a3d753094
+//	他に何個かあったけど Chrome の履歴が全期間分どっか行って最悪。
+//	 ↑次の日見たらまた消えてて何なん？1日分しか残せんの？？？
 
 //	その他
-//	gpt-5.6-Terra effort: medium
-//	書き込み禁止の相談役。
-//	エラーの原因が分からないときとやり方が分からず詰まったときに相談に乗ってもらいました。
+// 
+//	翻訳
+//	gemini-3.1-pro
+//	何か英語の方がかっこいい。読めないけど
+// 
+// 相談役
+//	gpt-5.6-Terra effort: medium/ultra
+//	エラーの原因が分からないときと、やり方が分からず詰まったときに相談したモデル
+// 
+//	相談役2 / 課題条件を満たしているかの確認役
+//	gpt-5.6-Sol effortt: medium
+//	Terraが指示を無視してデータ消したりしてきた。gpt-5.5と同等性能なんて嘘だ
+//	sol優秀マジ大好き。でも token 喰い過ぎ。太るぞ

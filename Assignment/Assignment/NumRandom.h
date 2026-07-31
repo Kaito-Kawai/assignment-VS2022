@@ -1,9 +1,11 @@
 #pragma once
+
 class NumRandom
 {
 public:
-	int getNum();	// randNum ‚Ì’l‚ğæ“¾‚·‚éB
+	int getJobNum();
+	int getActionNum();
 
 private:
-	int createRandomNum();
+	int createRandomNum(int min, int max);
 };
