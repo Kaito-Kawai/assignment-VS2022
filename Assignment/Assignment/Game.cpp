@@ -61,26 +61,26 @@ void Game::playTurn()
 	std::cout << "Select your character." << std::endl;
 	std::cout << "1: Swordsman / 2: Wizard / 3: Summoner" << std::endl;
 
-	std::cin >> select;
-	select = std::stoi(inputaction);
+	std::cin >> inputselect;
 
-	if (select < 1 || select > 3)
+	if (inputselect != "1" && inputselect != "2" && inputselect != "3")
 	{
 		std::cout << "[ERROR] Invalid character selection." << std::endl;
 		return;
 	}
+	select = std::stoi(inputselect);
 
 	std::cout << "Select your action." << std::endl;
 	std::cout << "1: Attack / 2: Guard" << std::endl;
 
-	std::cin >> actionSelect;
-	actionSelect = std::stoi(inputaction);
+	std::cin >> inputaction;
 
-	if (actionSelect < 1 || actionSelect > 2)
+	if (inputaction != "1" && inputaction != "2")
 	{
 		std::cout << "[ERROR] Invalid action selection." << std::endl;
 		return;
 	}
+	actionSelect = std::stoi(inputaction);
 
 	enemyTurn(enemy, enemyaction);
 
