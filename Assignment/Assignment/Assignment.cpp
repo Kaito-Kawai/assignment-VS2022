@@ -36,6 +36,11 @@ int main()
 //	https://qiita.com/tsukino_/items/01acf1c16f4a3d753094
 //	他に何個かあったけど Chrome の履歴が全期間分どっか行って最悪。
 //	 ↑次の日見たらまた消えてて何なん？1日分しか残せんの？？？
+//	出てきた
+//	std::unique_ptr
+//	https://qiita.com/sinndasakana/items/44610e54b168519d0915
+//	
+
 
 //	その他
 // 
