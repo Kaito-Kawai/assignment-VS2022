@@ -5,6 +5,8 @@
 
 #include <iostream>
 
+#include <string>
+
 void Game::Run()
 {
 	std::cout << "[INIT] Initializing game state.\n" << std::endl;
@@ -48,9 +50,11 @@ void Game::setting()
 
 void Game::playTurn()
 {
+	std::string inputselect = "0";
+	std::string inputaction = "0";
+
 	int select = 0;
 	int actionSelect = 0;
-
 	int enemy = 0;
 	int enemyaction = 0;
 
@@ -58,6 +62,7 @@ void Game::playTurn()
 	std::cout << "1: Swordsman / 2: Wizard / 3: Summoner" << std::endl;
 
 	std::cin >> select;
+	select = std::stoi(inputaction);
 
 	if (select < 1 || select > 3)
 	{
@@ -69,6 +74,7 @@ void Game::playTurn()
 	std::cout << "1: Attack / 2: Guard" << std::endl;
 
 	std::cin >> actionSelect;
+	actionSelect = std::stoi(inputaction);
 
 	if (actionSelect < 1 || actionSelect > 2)
 	{
